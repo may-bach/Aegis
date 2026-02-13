@@ -6,32 +6,33 @@
 [![Federated Learning](https://img.shields.io/badge/Framework-Flower-orange)](https://flower.dev/)
 [![Status](https://img.shields.io/badge/Status-In%20Development-yellow)]()
 
-## 🛡️ Overview
+## Overview
 
 **Aegis** is a privacy-preserving machine learning initiative designed to solve the "data silo" problem in healthcare. Traditional AI requires centralizing data, which creates massive privacy risks and legal bottlenecks. Aegis bypasses this by bringing the model to the data, not the data to the model.
 
-Using **Federated Learning (FL)**, Aegis simulates a network of hospitals (clients) that train a local model on their own private patient records. These clients send only mathematical model updates (gradients/weights)—never patient data—to a central coordinator, which aggregates them into a superior global model.
+Think of it like this: imagine several hospitals want to collaborate on predicting heart disease, but they can't share patient records due to HIPAA. With Aegis, each hospital trains a model locally on their own data, then shares only the mathematical insights (model updates) with a central coordinator. No patient data ever leaves the hospital.
 
-**Goal:** Accurately predict heart disease presence using the **UCI Heart Disease dataset** across distributed, non-IID data partitions while maintaining 100% data privacy.
+The result? A model that's learned from everyone's data but has seen no one's actual records.
 
-## ⚡ Key Features
+## Key Features
 
 * **Decentralized Training:** Simulates 4–8 distinct hospital clients with unique patient demographics.
 * **Privacy-First Architecture:** Raw data remains strictly on local client devices; only model parameters are transmitted.
 * **Federated Averaging:** Implements the `FedAvg` strategy to aggregate insights from diverse sources.
 * **Scalable Design:** Built with **Flower (flwr)** and **PyTorch**, designed to be compatible with cloud-native workflows (e.g., AWS SageMaker).
 
-## 🏗️ Architecture
+## How It Works
 
-1.  **Global Server:** Initializes the model and distributes it to available clients.
-2.  **Local Clients (Hospitals):**
-    * Receive the global model.
-    * Train locally on private data (UCI Heart Disease subset).
-    * Calculate updates (weights) and send them back.
-3.  **Aggregation:** The server averages the updates to create a new, smarter global model.
-4.  **Repeat:** This cycle continues for varying rounds until accuracy converges.
+It works on the basis of three steps that repeat over multiple rounds:
 
-## 🛠️ Tech Stack
+1. **Distribution:** A central server sends out the current model to all participating hospitals.
+2. **Local Training:** Each hospital trains the model on their private patient data, calculating what needs to change.
+3. **Aggregation:** Hospitals send back only their model updates. The server averages these insights to create a smarter global model.
+
+No patient data travels across the network.
+
+
+## Tech Stack
 
 * **Core Language:** Python 3.x
 * **FL Framework:** Flower (`flwr`)
@@ -39,24 +40,28 @@ Using **Federated Learning (FL)**, Aegis simulates a network of hospitals (clien
 * **Data Processing:** Pandas, NumPy
 * **Dataset:** UCI Heart Disease (Cleveland)
 
-## 🗺️ Roadmap
+## 🗺️ The Journey Ahead
 
-- [ ] **Phase 1: Data Pipeline**
-    - Load UCI Heart Disease dataset.
-    - Implement non-IID data splitting (simulating uneven patient distributions across hospitals).
-- [ ] **Phase 2: Client-Server Setup**
-    - Define the `FlowerClient` class for local training.
-    - Set up the server-side aggregation strategy (`FedAvg`).
-- [ ] **Phase 3: Simulation**
-    - Run multi-round simulation (10-50 rounds).
-    - Benchmark Global Model Accuracy vs. Local-Only Models.
-- [ ] **Phase 4: Optimization & Docs**
-    - Visualize accuracy curves (Matplotlib/Seaborn).
-    - Finalize documentation for AWS SageMaker compatibility.
+**Phase 1: Getting Data Ready**
+- Load the heart disease dataset
+- Split it realistically—Hospital A might see more elderly patients, Hospital B more young athletes
 
-## 🤝 Contributing
+**Phase 2: Building the Network**
+- Create the client-side training code each "hospital" runs
+- Set up the server that coordinates everything
 
-This project is currently in the initial development phase. Suggestions for privacy-preserving techniques (DP-SGD) or model architecture improvements are welcome.
+**Phase 3: Making It Real**
+- Run actual training simulations (10-50 rounds)
+- Compare results: does our federated model beat what each hospital could do alone?
+
+**Phase 4: Polish & Deploy**
+- Visualize how accuracy improves over time
+- Document the path to running this on AWS SageMaker for real deployments
+
+## 🤝 Want to Help?
+
+This is early-stage work, and fresh perspectives are incredibly valuable. If you have ideas about differential privacy, model architectures, or just want to poke holes in the approach, I'd love to hear from you.
 
 ---
-*Built by [maybach uk]*
+
+**Note:** Aegis is a demonstration project exploring privacy-preserving ML techniques. It's not medical software and hasn't been validated for clinical use.
