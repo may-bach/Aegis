@@ -1,0 +1,59 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.env
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# IDE settings
+.vscode/
+.idea/
+
+# DATASETS (Crucial for Privacy Projects)
+# Never commit patient data to GitHub
+data/
+data/raw/*
+data/processed/*
+!data/.gitkeep  # Keeps the folder structure but ignores contents
+
+# Model Weights & Logs
+# Exclude heavy binaries
+models/*.pth
+models/*.pkl
+models/*.h5
+logs/
+
+# Mac OS specific
+.DS_Store
+
+# AWS / Secrets
+.aws/
+secrets.json
