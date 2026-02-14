@@ -4,7 +4,9 @@ import torch.nn.functional as F
 import sys
 from collections import OrderedDict
 import flwr as fl
-from dataset import load_data, get_client_data, get_test_loader
+from src.dataset import load_data, get_client_data, get_test_loader
+from flwr.client import ClientApp
+from flwr.common import Context
 
 class Net(nn.Module):
     def __init__(self):
@@ -19,9 +21,9 @@ class Net(nn.Module):
         x = torch.sigmoid(self.fc3(x))
         return x
 
-def train(net, trainloader, epochs):
+def train(net, trainloader, epochs, lr):
     criterion = nn.BCELoss()
-    optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
+    optimizer = torch.optim.SGD(net.parameters(), lr=lr, momentum=0.9)
     
     net.train()
     for _ in range(epochs):
@@ -63,7 +65,8 @@ class FlowerClient(fl.client.NumPyClient):
 
     def fit(self, parameters, config):
         self.set_parameters(parameters)
-        train(self.net, self.trainloader, epochs=1)
+        lr = config.get("lr", 0.01)
+        train(self.net, self.trainloader, epochs=5, lr=lr)
         return self.get_parameters(config={}), len(self.trainloader.dataset), {} 
 
     def evaluate(self, parameters, config):
@@ -71,20 +74,20 @@ class FlowerClient(fl.client.NumPyClient):
         loss, accuracy = test(self.net, self.testloader)
         return float(loss), len(self.testloader.dataset), {"accuracy": float(accuracy)}
 
-if __name__ == "__main__":
+def client_fn(context: Context):
+    """Create a Flower client."""
     X_train, X_test, y_train, y_test = load_data()
     
-    
-    client_id = int(sys.argv[1]) if len(sys.argv) > 1 else 0
+    # Get client_id from context instead of command line
+    client_id = context.node_config["partition-id"]
+    num_clients = context.node_config["num-partitions"]
     
     print(f"Starting Client {client_id}...")
-
-    trainloader = get_client_data(client_id, 3, X_train, y_train)
     
+    trainloader = get_client_data(client_id, num_clients, X_train, y_train)
     testloader = get_test_loader(X_test, y_test)
-
+    
     net = Net()
-    fl.client.start_numpy_client(
-        server_address="127.0.0.1:8080", 
-        client=FlowerClient(net, trainloader, testloader)
-    )
+    return FlowerClient(net, trainloader, testloader).to_client()
+
+app = ClientApp(client_fn=client_fn)

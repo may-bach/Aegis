@@ -6,9 +6,7 @@ from sklearn.model_selection import train_test_split
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
-
-def load_data(path = "heart.csv"):
-
+def load_data(path="heart.csv"):
     if not os.path.exists(path):
         raise FileNotFoundError(f"{path} does not exist.")
     
@@ -16,17 +14,17 @@ def load_data(path = "heart.csv"):
     y = df["target"].values
     X = df.drop(["target"], axis=1).values
 
-    scaler = StandardScaler()
-    X = scaler.fit_transform(X)
-    Xtr,Xte,ytr,yte = train_test_split(X,y,test_size=0.2,random_state=16)   # X_train, X_test ...
+    Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.2, random_state=16)
 
-    return Xtr,Xte,ytr,yte
-    
+    scaler = StandardScaler()
+    Xtr = scaler.fit_transform(Xtr)
+    Xte = scaler.transform(Xte)
+
+    return Xtr, Xte, ytr, yte
 
 def get_client_data(client_id, total_clients, Xtr, ytr, batch=32):
-
     sorted_idx = np.argsort(Xtr[:, 0])
-    spc = len(Xtr) // total_clients   #smaples per client
+    spc = len(Xtr) // total_clients  #samples per client
     start_idx = client_id * spc
     end_idx = start_idx + spc
 
@@ -35,17 +33,15 @@ def get_client_data(client_id, total_clients, Xtr, ytr, batch=32):
 
     client_idx = sorted_idx[start_idx:end_idx]
 
-    X_client = torch.tensor(Xtr[client_idx], dtype = torch.float32)
-    y_client = torch.tensor(ytr[client_idx], dtype = torch.float32).unsqueeze(1)
+    X_client = torch.tensor(Xtr[client_idx], dtype=torch.float32)
+    y_client = torch.tensor(ytr[client_idx], dtype=torch.float32).unsqueeze(1)
 
     dataset = TensorDataset(X_client, y_client)
     dataloader = DataLoader(dataset, batch_size=batch, shuffle=True)
 
     return dataloader
 
-
 def get_test_loader(X_test, y_test, batch_size=32):
-
     X_t = torch.tensor(X_test, dtype=torch.float32)
     y_t = torch.tensor(y_test, dtype=torch.float32).unsqueeze(1)
     
