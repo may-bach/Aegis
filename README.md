@@ -69,7 +69,7 @@ Training complete! Loss reduced by 20.4%
 Our federated learning approach achieved **77% accuracy** on heart disease prediction 
 while maintaining complete data privacy across 3 simulated hospital nodes.
 
-## 🗺️ The Journey Ahead
+## The Journey Ahead
 
 **Phase 1: Getting Data Ready**
 - Load the heart disease dataset
@@ -87,7 +87,7 @@ while maintaining complete data privacy across 3 simulated hospital nodes.
 - Visualize how accuracy improves over time
 - Document the path to running this on AWS SageMaker for real deployments
 
-## 🤝 Want to Help?
+## Want to Help?
 
 This is early-stage work, and fresh perspectives are incredibly valuable. If you have ideas about differential privacy, model architectures, or just want to poke holes in the approach, I'd love to hear from you.
 
