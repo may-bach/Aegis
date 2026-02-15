@@ -54,6 +54,22 @@ python src/visualize.py
 
 Expected output: Model trains across 3 hospitals for 10 rounds, reaching ~77% accuracy.
 
+## Docker Deployment
+
+Run Aegis in an isolated container:
+```bash
+# Build and run
+docker-compose up --build
+
+# Stop
+docker-compose down
+```
+
+**Outputs are saved to:**
+- `./logs/` - Training logs
+- `./results/` - Results  
+- `./aegis_results.png` - Visualization
+
 ## Example Output
 ```
 INFO: [ROUND 1] accuracy: 49.18%
