@@ -40,6 +40,13 @@ No patient data travels across the network.
 * **Data Processing:** Pandas, NumPy
 * **Dataset:** UCI Heart Disease (Cleveland)
 
+## Results
+
+![Federated Learning Results](aegis_results.png)
+
+Our federated learning approach achieved **77% accuracy** on heart disease prediction 
+while maintaining complete data privacy across 3 simulated hospital nodes.
+
 ## 🗺️ The Journey Ahead
 
 **Phase 1: Getting Data Ready**
