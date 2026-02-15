@@ -59,7 +59,7 @@ Expected output: Model trains across 3 hospitals for 10 rounds, reaching ~77% ac
 INFO: [ROUND 1] accuracy: 49.18%
 INFO: [ROUND 5] accuracy: 73.77%
 INFO: [ROUND 10] accuracy: 77.05%
-✅ Training complete! Loss reduced by 20.4%
+Training complete! Loss reduced by 20.4%
 ```
 
 ## Results
