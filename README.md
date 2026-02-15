@@ -40,32 +40,44 @@ No patient data travels across the network.
 * **Data Processing:** Pandas, NumPy
 * **Dataset:** UCI Heart Disease (Cleveland)
 
+## Quick Start
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run federated learning simulation
+flwr run .
+
+# Visualize results
+python src/visualize.py
+```
+
+Expected output: Model trains across 3 hospitals for 10 rounds, reaching ~77% accuracy.
+
+## Example Output
+```
+INFO: [ROUND 1] accuracy: 49.18%
+INFO: [ROUND 5] accuracy: 73.77%
+INFO: [ROUND 10] accuracy: 77.05%
+Training complete! Loss reduced by 20.4%
+```
+
 ## Results
 
 ![Federated Learning Results](aegis_results.png)
 
 Our federated learning approach achieved **77% accuracy** on heart disease prediction 
 while maintaining complete data privacy across 3 simulated hospital nodes.
+## Roadmap
 
-## 🗺️ The Journey Ahead
+- [x] **Phase 1:** Data Pipeline
+- [x] **Phase 2:** Client-Server Setup
+- [x] **Phase 3:** Simulation & Training
+- [x] **Phase 4:** Visualization
+- [ ] **Phase 5:** Advanced Features (Differential Privacy, Multi-dataset support)
+- [ ] **Phase 6:** Production Deployment (AWS SageMaker, Docker)
 
-**Phase 1: Getting Data Ready**
-- Load the heart disease dataset
-- Split it realistically—Hospital A might see more elderly patients, Hospital B more young athletes
-
-**Phase 2: Building the Network**
-- Create the client-side training code each "hospital" runs
-- Set up the server that coordinates everything
-
-**Phase 3: Making It Real**
-- Run actual training simulations (10-50 rounds)
-- Compare results: does our federated model beat what each hospital could do alone?
-
-**Phase 4: Polish & Deploy**
-- Visualize how accuracy improves over time
-- Document the path to running this on AWS SageMaker for real deployments
-
-## 🤝 Want to Help?
+## Want to Help?
 
 This is early-stage work, and fresh perspectives are incredibly valuable. If you have ideas about differential privacy, model architectures, or just want to poke holes in the approach, I'd love to hear from you.
 
