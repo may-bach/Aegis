@@ -68,24 +68,14 @@ Training complete! Loss reduced by 20.4%
 
 Our federated learning approach achieved **77% accuracy** on heart disease prediction 
 while maintaining complete data privacy across 3 simulated hospital nodes.
+## Roadmap
 
-## The Journey Ahead
-
-**Phase 1: Getting Data Ready**
-- Load the heart disease dataset
-- Split it realistically—Hospital A might see more elderly patients, Hospital B more young athletes
-
-**Phase 2: Building the Network**
-- Create the client-side training code each "hospital" runs
-- Set up the server that coordinates everything
-
-**Phase 3: Making It Real**
-- Run actual training simulations (10-50 rounds)
-- Compare results: does our federated model beat what each hospital could do alone?
-
-**Phase 4: Polish & Deploy**
-- Visualize how accuracy improves over time
-- Document the path to running this on AWS SageMaker for real deployments
+- [x] **Phase 1:** Data Pipeline
+- [x] **Phase 2:** Client-Server Setup
+- [x] **Phase 3:** Simulation & Training
+- [x] **Phase 4:** Visualization
+- [ ] **Phase 5:** Advanced Features (Differential Privacy, Multi-dataset support)
+- [ ] **Phase 6:** Production Deployment (AWS SageMaker, Docker)
 
 ## Want to Help?
 
