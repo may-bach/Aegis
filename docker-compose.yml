@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Main federated learning training
+  aegis-train:
+    build: .
+    image: aegis:latest
+    container_name: aegis-training
+    volumes:
+      - ./logs:/app/logs
+      - ./results:/app/results
+      - ./aegis_results.png:/app/aegis_results.png
+    environment:
+      - PYTHONUNBUFFERED=1
+      - RAY_DEDUP_LOGS=0
+      - PYTHONWARNINGS=ignore
+    command: flwr run .
+    networks:
+      - aegis-network
+
+  aegis-visualize:
+    build: .
+    image: aegis:latest
+    container_name: aegis-visualize
+    volumes:
+      - ./logs:/app/logs
+      - ./results:/app/results
+      - ./aegis_results.png:/app/aegis_results.png
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python src/visualize.py
+    depends_on:
+      - aegis-train
+    networks:
+      - aegis-network
+    profiles:
+      - visualization
+
+networks:
+  aegis-network:
+    driver: bridge
